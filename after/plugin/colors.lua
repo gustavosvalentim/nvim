@@ -1,15 +1,13 @@
-vim.cmd.colorscheme("rose-pine")
+function transparent_bg()
+    vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
+end
 
-vim.opt.termguicolors = true
+function colorize(color)
+    color = color or 'github_dark'
+    vim.cmd.colorscheme(color)
 
--- Disable background
-vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-vim.api.nvim_set_hl(0, "LineNr", { bg = "none" })
-vim.api.nvim_set_hl(0, "Folded", { bg = "none" })
-vim.api.nvim_set_hl(0, "NonText", { bg = "none" })
-vim.api.nvim_set_hl(0, "SpecialKey", { bg = "none" })
-vim.api.nvim_set_hl(0, "VertSplit", { bg = "none" })
-vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
-vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
+    -- transparent_bg()
+end
 
+colorize('github_dark_high_contrast')

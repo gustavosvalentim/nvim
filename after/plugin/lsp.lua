@@ -1,6 +1,10 @@
 local lspconfig = require('lspconfig')
 local util = require('lspconfig/util')
 
+lspconfig.lua_ls.setup {}
+
+lspconfig.tsserver.setup {}
+
 lspconfig.gopls.setup {
     cmd = {'gopls', 'serve'},
     filetypes = {'go', 'gomod'},
@@ -15,14 +19,14 @@ lspconfig.gopls.setup {
     },
 }
 
-lspconfig.rust_analyzer.setup{
+lspconfig.rust_analyzer.setup {
   settings = {
     ['rust-analyzer'] = {
       diagnostics = {
-        enable = false;
+        enable = false,
       }
     }
-  }
+  },
 }
 
 vim.api.nvim_create_autocmd('LspAttach', {
