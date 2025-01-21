@@ -1,3 +1,3 @@
-require('noice').setup {
-    presets = { inc_rename = true }
-}
+-- require('noice').setup {
+--    presets = { inc_rename = true }
+-- }

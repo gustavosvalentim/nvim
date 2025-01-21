@@ -3,8 +3,6 @@ local util = require('lspconfig/util')
 
 lspconfig.lua_ls.setup {}
 
-lspconfig.tsserver.setup {}
-
 lspconfig.gopls.setup {
     cmd = {'gopls', 'serve'},
     filetypes = {'go', 'gomod'},

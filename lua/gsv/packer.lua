@@ -41,10 +41,10 @@ return require('packer').startup(function(use)
       end,
     }
 
-    use {
-      "folke/noice.nvim",
-      requires = { "MunifTanjim/nui.nvim" }
-    }
+    -- use {
+    --   "folke/noice.nvim",
+    --   requires = { "MunifTanjim/nui.nvim" }
+    -- }
 
     use({
       "utilyre/barbecue.nvim",
