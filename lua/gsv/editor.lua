@@ -24,4 +24,3 @@ vim.opt.updatetime = 50
 vim.opt.signcolumn = "yes"
 
 vim.opt.syntax = "enable"
-
