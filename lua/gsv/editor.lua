@@ -24,3 +24,5 @@ vim.opt.updatetime = 50
 vim.opt.signcolumn = "yes"
 
 vim.opt.syntax = "enable"
+
+vim.g.netrw_keepdir = 0
