@@ -8,9 +8,14 @@ vim.o.completeopt = "menuone,noinsert,noselect"
 -- Avoid showing extra messages when using completion
 vim.opt.shortmess = vim.opt.shortmess + "c"
 
-
 local lspconfig = require('lspconfig')
 local util = require('lspconfig/util')
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+require('mason').setup {}
+require('mason-lspconfig').setup {
+    ensure_installed = { 'lua_ls', 'gopls', 'rust_analyzer', 'pyright', 'ts_ls' },
+}
 
 -- LSP configs
 
@@ -80,8 +85,26 @@ lspconfig.rust_analyzer.setup {
           -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
           ["rust-analyzer"] = {
             -- enable clippy on save
-            checkOnSave = {
-              command = "clippy",
+            checkOnSave = true,
+            check = {
+                command = "clippy",
+                features = "all",
+            },
+            diagnostics = {
+                enable = true,
+                enableExperimental = true,
+            },
+            cargo = {
+                loadOutDirsFromCheck = true,
+                features = "all",
+            },
+            procMacro = {
+                enable = true,
+            },
+            inlayHints = {
+                chainingHints = true,
+                parameterHints = false,
+                typeHints = true,
             },
           },
         },
@@ -89,13 +112,32 @@ lspconfig.rust_analyzer.setup {
 }
 
 -- Pyton
-lspconfig.ruff.setup {}
+lspconfig.pyright.setup {
+    settings = {
+        python = {
+            pythonPath = vim.fn.exepath('python'),
+        }
+    }
+}
+
+-- TypeScript
+lspconfig.ts_ls.setup {}
+
+
+-- CMP
+local servers = { 'lua_ls', 'gopls', 'rust_analyzer', 'pyright', 'ts_ls' }
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    -- on_attach = my_custom_on_attach,
+    capabilities = capabilities,
+  }
+end
 
 -- Neovim LSP keymaps and config
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', {}),
     callback = function(ev)
-        vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+        -- vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
         -- mappings
         -- See `:help vim.lsp.*` for documentation on any of the below functions
@@ -104,8 +146,46 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, opts)
         vim.keymap.set('n', '<leader>K', vim.lsp.buf.hover, opts)
         vim.keymap.set('n', '<leader>gr', vim.lsp.buf.references, opts)
+        vim.keymap.set('n', '<C-w>d', vim.diagnostic.open_float, opts)
         vim.keymap.set('n', '<leader>f', function()
             vim.lsp.buf.format { async = true }
         end, opts)
     end
 })
+
+-- CMP config
+local cmp = require 'cmp'
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
+    ['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
+    -- C-b (back) C-f (forward) for snippet placeholder navigation.
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+  }),
+  sources = {
+    { name = 'nvim_lsp' },
+  },
+}

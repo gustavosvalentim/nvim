@@ -26,3 +26,9 @@ vim.opt.signcolumn = "yes"
 vim.opt.syntax = "enable"
 
 vim.g.netrw_keepdir = 0
+
+vim.opt.foldmethod = "expr"
+vim.opt.foldcolumn = "0"
+vim.opt.foldtext = ""
+vim.opt.foldlevel = 99
+vim.opt.foldnestmax = 4
