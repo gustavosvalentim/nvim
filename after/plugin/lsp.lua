@@ -138,11 +138,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
         -- mappings
         -- See `:help vim.lsp.*` for documentation on any of the below functions
         local opts = { buffer = ev.buf }
-        vim.keymap.set('n', '<leader>gD', vim.lsp.buf.declaration, opts)
-        vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, opts)
-        vim.keymap.set('n', '<leader>K', vim.lsp.buf.hover, opts)
-        vim.keymap.set('n', '<leader>gr', vim.lsp.buf.references, opts)
-        vim.keymap.set('n', '<C-w>d', vim.diagnostic.open_float, opts)
+        -- vim.keymap.set('n', '<leader>gD', vim.lsp.buf.declaration, opts)
+        vim.keymap.set('n', '<F12>', vim.lsp.buf.definition, opts)
+        vim.keymap.set('n', '<A-F12>', vim.lsp.buf.hover, opts)
+        vim.keymap.set('n', '<C-F12>', vim.lsp.buf.implementation, opts)
+        vim.keymap.set('n', '<S-F12>', vim.lsp.buf.references, opts)
+        vim.keymap.set('n', '<C-.>', vim.diagnostic.open_float, opts)
         vim.keymap.set('n', '<leader>f', function()
             vim.lsp.buf.format { async = true }
         end, opts)

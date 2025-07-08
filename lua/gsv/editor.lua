@@ -25,7 +25,8 @@ vim.opt.signcolumn = "yes"
 
 vim.opt.syntax = "enable"
 
-vim.g.netrw_keepdir = 0
+-- set this to 0 if you want `:e .` to use the buffer dir
+vim.g.netrw_keepdir = 1
 
 vim.opt.foldmethod = "expr"
 vim.opt.foldcolumn = "0"

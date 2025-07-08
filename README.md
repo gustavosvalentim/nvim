@@ -79,9 +79,10 @@ This configuration is structured to be modular and easy to maintain.
     -   `editor.lua`: Contains general editor settings like line numbers, indentation, and search behavior.
     -   `plugins.lua`: Defines the list of plugins to be installed and managed by `lazy.nvim`.
 -   `after/plugin/`: Contains plugin-specific configurations and keymaps.
-    -   `fzf.lua`: Keybindings for `fzf`.
+    -   `fzf.lua`: Keybindings for `fzf-lua`.
     -   `lsp.lua`: Configuration for the Language Server Protocol (LSP), completion, and diagnostics.
     -   `lualine.lua`: Configuration for the status line.
+    -   `neotree.lua`: Configuration for the file explorer.
     -   `treesitter.lua`: Configuration for `nvim-treesitter` for syntax highlighting.
 
 ## Keybindings
@@ -92,22 +93,29 @@ This configuration is structured to be modular and easy to maintain.
 | --- | --- |
 | `<leader>` | `Space` |
 
-### FZF
+### FZF (fzf-lua)
 
 | Key | Description |
 | --- | --- |
 | `<C-p>` | Search for files in the current directory. |
-| `<C-f>` | Search for a string in the current directory using `ripgrep`. |
+| `<C-f>` | Search for a string in the current buffer. |
+| `<C-S-f>` | Live grep for a string in the current directory using `ripgrep`. |
+
+### Neo-tree
+
+| Key | Description |
+| --- | --- |
+| `<C-b>` | Toggle the file explorer. |
 
 ### LSP
 
 | Key | Description |
 | --- | --- |
-| `<leader>gD` | Go to declaration. |
-| `<leader>gd` | Go to definition. |
-| `<leader>K` | Show hover information. |
-| `<leader>gr` | Show references. |
-| `<C-w>d` | Show diagnostics in a floating window. |
+| `<F12>` | Go to definition. |
+| `<A-F12>` | Show hover information. |
+| `<C-F12>` | Go to implementation. |
+| `<S-F12>` | Show references. |
+| `<C-.>` | Show diagnostics in a floating window. |
 | `<leader>f` | Format the current buffer. |
 
 ### Completion (nvim-cmp)
@@ -135,8 +143,10 @@ This configuration uses the following plugins:
 -   **[cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp):** LSP source for `nvim-cmp`.
 -   **[lualine.nvim](https://github.com/nvim-lualine/lualine.nvim):** A status line for Neovim.
 -   **[vim-fugitive](https://github.com/tpope/vim-fugitive):** A Git wrapper.
--   **[fzf](https://github.com/junegunn/fzf):** A command-line fuzzy finder.
--   **[fzf.vim](https://github.com/junegunn/fzf.vim):** Vim bindings for `fzf`.
+-   **[fzf-lua](https://github.com/ibhagwan/fzf-lua):** A fuzzy finder implementation in Lua.
+-   **[neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim):** A file explorer for Neovim.
+-   **[plenary.nvim](https://github.com/nvim-lua/plenary.nvim):** A utility library used by many plugins.
+-   **[nui.nvim](https://github.com/MunifTanjim/nui.nvim):** A UI component library.
 -   **[nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons):** Icons for file types.
 
 ## Editor Settings
@@ -144,5 +154,5 @@ This configuration uses the following plugins:
 -   **Indentation:** 4 spaces, with tabs expanded to spaces.
 -   **Line Numbers:** Both absolute and relative line numbers are enabled.
 -   **Search:** Incremental search is enabled, but highlighting of all matches is disabled.
--   **Folding:** Folding is enabled and based on Treesitter.
+-   **Folding:** Folding is enabled and based on expression (`foldmethod=expr`).
 -   **Backup/Swap Files:** Disabled.
