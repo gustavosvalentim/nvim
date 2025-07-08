@@ -12,10 +12,6 @@ local lspconfig = require('lspconfig')
 local util = require('lspconfig/util')
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-require('mason').setup {}
-require('mason-lspconfig').setup {
-    ensure_installed = { 'lua_ls', 'gopls', 'rust_analyzer', 'pyright', 'ts_ls' },
-}
 
 -- LSP configs
 

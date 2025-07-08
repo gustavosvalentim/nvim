@@ -33,8 +33,16 @@ require('lazy').setup({
         end
     },
     { 'neovim/nvim-lspconfig' },
-    { 'williamboman/mason.nvim' },
-    { 'williamboman/mason-lspconfig.nvim' },
+    { 'mason-org/mason.nvim', opts = {} },
+    { 'mason-org/mason-lspconfig.nvim',
+      opts = {
+        ensure_installed = { 'lua_ls', 'gopls', 'rust_analyzer', 'pyright', 'ts_ls' },
+      },
+      dependencies = {
+        { 'mason-org/mason.nvim', opts = {} },
+        { 'neovim/nvim-lspconfig' },
+      },
+    },
     { 'hrsh7th/nvim-cmp' },
     { 'hrsh7th/cmp-nvim-lsp' },
     {
