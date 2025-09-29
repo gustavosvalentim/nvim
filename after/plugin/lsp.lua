@@ -8,15 +8,11 @@ vim.o.completeopt = "menuone,noinsert,noselect"
 -- Avoid showing extra messages when using completion
 vim.opt.shortmess = vim.opt.shortmess + "c"
 
-local lspconfig = require('lspconfig')
 local util = require('lspconfig/util')
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-
--- LSP configs
-
 -- Lua
-lspconfig.lua_ls.setup {
+vim.lsp.config('lua_ls', {
   on_init = function(client)
     if client.workspace_folders then
       local path = client.workspace_folders[1].name
@@ -48,10 +44,10 @@ lspconfig.lua_ls.setup {
   settings = {
     Lua = {}
   }
-}
+})
 
 -- Go
-lspconfig.gopls.setup {
+vim.lsp.config('gopls', {
     cmd = {'gopls', 'serve'},
     filetypes = {'go', 'gomod'},
     root_dir = util.root_pattern('go.work', 'go.mod', '.git'),
@@ -63,10 +59,10 @@ lspconfig.gopls.setup {
         staticcheck = true,
       },
     },
-}
+})
 
 -- Rust
-lspconfig.rust_analyzer.setup {
+vim.lsp.config('rust_analyzer', {
     on_attach = function(client, bufnr)
         vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     end,
@@ -74,59 +70,42 @@ lspconfig.rust_analyzer.setup {
     -- all the opts to send to nvim-lspconfig
     -- these override the defaults set by rust-tools.nvim
     -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
-    server = {
-        -- on_attach is a callback called when the language server attachs to the buffer
-        settings = {
-          -- to enable rust-analyzer settings visit:
-          -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
-          ["rust-analyzer"] = {
-            -- enable clippy on save
-            checkOnSave = true,
-            check = {
-                command = "clippy",
-                features = "all",
-            },
-            diagnostics = {
-                enable = true,
-                enableExperimental = true,
-            },
-            cargo = {
-                loadOutDirsFromCheck = true,
-                features = "all",
-            },
-            procMacro = {
-                enable = true,
-            },
-            inlayHints = {
-                chainingHints = true,
-                parameterHints = false,
-                typeHints = true,
-            },
-          },
-        },
-    },
-}
-
--- Pyton
-lspconfig.pyright.setup {
     settings = {
-        python = {
-            pythonPath = vim.fn.exepath('python'),
-        }
-    }
-}
-
--- TypeScript
-lspconfig.ts_ls.setup {}
-
+      -- to enable rust-analyzer settings visit:
+      -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
+      ["rust-analyzer"] = {
+        -- enable clippy on save
+        checkOnSave = true,
+        check = {
+            command = "clippy",
+            features = "all",
+        },
+        diagnostics = {
+            enable = true,
+            enableExperimental = true,
+        },
+        cargo = {
+            loadOutDirsFromCheck = true,
+            features = "all",
+        },
+        procMacro = {
+            enable = true,
+        },
+        inlayHints = {
+            chainingHints = true,
+            parameterHints = false,
+            typeHints = true,
+        },
+      },
+    },
+})
 
 -- CMP
-local servers = { 'lua_ls', 'gopls', 'rust_analyzer', 'pyright', 'ts_ls' }
+local servers = { 'lua_ls', 'gopls', 'rust_analyzer', 'pylsp', 'ts_ls' }
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    -- on_attach = my_custom_on_attach,
-    capabilities = capabilities,
-  }
+  vim.lsp.config[lsp].capabilities = capabilities
+
+  vim.lsp.enable(lsp)
 end
 
 -- Neovim LSP keymaps and config
