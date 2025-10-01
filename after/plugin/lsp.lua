@@ -100,7 +100,25 @@ vim.lsp.config('rust_analyzer', {
     },
 })
 
-vim.lsp.config('basedpyright', {})
+vim.lsp.config('basedpyright', {
+    settings = {
+        basedpyright = {
+            analysis = {
+                typeCheckingMode = "strict",
+                deprecateTypingAliases = true,
+                diagnosticSeverityOverrides = {
+                    reportDeprecated = "warning",
+                },
+                inlayHints = {
+                    variableTypes = true,
+                    functionReturnTypes = true,
+                    callArgumentNames = true,
+                    -- pytestParameters = true,
+                },
+            },
+        },
+    }
+})
 
 -- CMP
 local servers = { 'lua_ls', 'gopls', 'rust_analyzer', 'basedpyright', 'ts_ls' }
@@ -125,7 +143,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', '<A-F12>', vim.lsp.buf.hover, opts)
         vim.keymap.set('n', '<C-F12>', vim.lsp.buf.implementation, opts)
         vim.keymap.set('n', '<S-F12>', vim.lsp.buf.references, opts)
-        vim.keymap.set('n', '<C-.>', vim.diagnostic.open_float, opts)
+        vim.keymap.set('n', '.', vim.diagnostic.open_float, opts)
         vim.keymap.set('n', '<leader>f', function()
             vim.lsp.buf.format { async = true }
         end, opts)
