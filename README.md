@@ -156,3 +156,21 @@ This configuration uses the following plugins:
 -   **Search:** Incremental search is enabled, but highlighting of all matches is disabled.
 -   **Folding:** Folding is enabled and based on expression (`foldmethod=expr`).
 -   **Backup/Swap Files:** Disabled.
+
+## Troubleshooting
+
+### Dependencies
+
+Dependencies are not updated on start, so you need to do it manually.
+
+Updating `Mason` dependencies:
+
+1. Run `:Mason`
+2. On `Mason` screen press `U` to update all packages
+
+Updating `Lazy.nvim` dependencies
+
+1. Run `:Lazy`
+2. On `Lazy` screen press `U` to update all packages
+
+Updating all packages usually works when there is changes on one of the plugins API, such as when `nvim-lspconfig` deprecated the usage of `vim.lsp.<lspname>.setup` and replace it for `vim.lsp.config('lspname', {})` and `vim.lsp.enable('lspname')`. In that `nvim-lspconfig` case, I had to `git pull` my neovim configuration and then run the steps above to get it working.
