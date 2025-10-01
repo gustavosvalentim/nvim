@@ -12,7 +12,7 @@ local util = require('lspconfig/util')
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- Lua
-vim.lsp.config('lua_ls', {
+vim.lsp.config['lua_ls'] = {
   on_init = function(client)
     if client.workspace_folders then
       local path = client.workspace_folders[1].name
@@ -44,10 +44,10 @@ vim.lsp.config('lua_ls', {
   settings = {
     Lua = {}
   }
-})
+}
 
 -- Go
-vim.lsp.config('gopls', {
+vim.lsp.config['gopls'] = {
     cmd = {'gopls', 'serve'},
     filetypes = {'go', 'gomod'},
     root_dir = util.root_pattern('go.work', 'go.mod', '.git'),
@@ -59,10 +59,10 @@ vim.lsp.config('gopls', {
         staticcheck = true,
       },
     },
-})
+}
 
 -- Rust
-vim.lsp.config('rust_analyzer', {
+vim.lsp.config['rust_analyzer'] = {
     on_attach = function(client, bufnr)
         vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     end,
@@ -98,13 +98,13 @@ vim.lsp.config('rust_analyzer', {
         },
       },
     },
-})
+}
 
-vim.lsp.config('basedpyright', {
+vim.lsp.config['basedpyright'] = {
     settings = {
         basedpyright = {
             analysis = {
-                typeCheckingMode = "strict",
+                typeCheckingMode = "standard",
                 deprecateTypingAliases = true,
                 diagnosticSeverityOverrides = {
                     reportDeprecated = "warning",
@@ -118,14 +118,12 @@ vim.lsp.config('basedpyright', {
             },
         },
     }
-})
+}
 
 -- CMP
 local servers = { 'lua_ls', 'gopls', 'rust_analyzer', 'basedpyright', 'ts_ls' }
 for _, lsp in ipairs(servers) do
-    vim.lsp.config[lsp] = {
-        capabilities = capabilities
-    }
+    vim.lsp.config[lsp]['capabilities'] = capabilities
     vim.lsp.enable(lsp)
 end
 
