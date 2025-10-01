@@ -100,8 +100,10 @@ vim.lsp.config('rust_analyzer', {
     },
 })
 
+vim.lsp.config('basedpyright', {})
+
 -- CMP
-local servers = { 'lua_ls', 'gopls', 'rust_analyzer', 'pylsp', 'ts_ls' }
+local servers = { 'lua_ls', 'gopls', 'rust_analyzer', 'basedpyright', 'ts_ls' }
 for _, lsp in ipairs(servers) do
     vim.lsp.config[lsp] = {
         capabilities = capabilities
