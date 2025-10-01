@@ -103,9 +103,10 @@ vim.lsp.config('rust_analyzer', {
 -- CMP
 local servers = { 'lua_ls', 'gopls', 'rust_analyzer', 'pylsp', 'ts_ls' }
 for _, lsp in ipairs(servers) do
-  vim.lsp.config[lsp].capabilities = capabilities
-
-  vim.lsp.enable(lsp)
+    vim.lsp.config[lsp] = {
+        capabilities = capabilities
+    }
+    vim.lsp.enable(lsp)
 end
 
 -- Neovim LSP keymaps and config
