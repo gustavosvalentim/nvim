@@ -139,8 +139,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
         -- vim.keymap.set('n', '<leader>gD', vim.lsp.buf.declaration, opts)
         vim.keymap.set('n', '<F12>', vim.lsp.buf.definition, opts)
         vim.keymap.set('n', '<A-F12>', vim.lsp.buf.hover, opts)
+        -- MacOS
+        vim.keymap.set('n', '<F60>', vim.lsp.buf.hover, opts)
         vim.keymap.set('n', '<C-F12>', vim.lsp.buf.implementation, opts)
+        -- MacOS
+        vim.keymap.set('n', '<F36>', vim.lsp.buf.implementation, opts)
         vim.keymap.set('n', '<S-F12>', vim.lsp.buf.references, opts)
+        -- MacOS
+        vim.keymap.set('n', '<F24>', vim.lsp.buf.references, opts)
         vim.keymap.set('n', '.', vim.diagnostic.open_float, opts)
         vim.keymap.set('n', '<leader>f', function()
             vim.lsp.buf.format { async = true }
