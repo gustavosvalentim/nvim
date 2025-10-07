@@ -1,7 +1,7 @@
 vim.opt.guicursor = ""
 
 vim.opt.nu = true
-vim.opt.relativenumber = true
+-- vim.opt.relativenumber = true
 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -33,3 +33,6 @@ vim.opt.foldcolumn = "0"
 vim.opt.foldtext = ""
 vim.opt.foldlevel = 99
 vim.opt.foldnestmax = 4
+
+-- open settings
+vim.keymap.set('n', '<C-,>', function() vim.cmd("e " .. vim.fn.stdpath("config")) end)
