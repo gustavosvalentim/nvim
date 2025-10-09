@@ -1,4 +1,4 @@
-fzf = require('fzf-lua')
+local fzf = require('fzf-lua')
 
 fzf.setup({ 'fzf-native' })
 
