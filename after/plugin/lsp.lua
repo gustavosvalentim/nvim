@@ -8,6 +8,9 @@ vim.o.completeopt = "menuone,noinsert,noselect"
 -- Avoid showing extra messages when using completion
 vim.opt.shortmess = vim.opt.shortmess + "c"
 
+-- Display inline diagnostics
+vim.diagnostic.config({ virtual_text = true })
+
 local util = require('lspconfig/util')
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
@@ -186,3 +189,4 @@ cmp.setup {
     { name = 'nvim_lsp' },
   },
 }
+

@@ -1,3 +1,3 @@
---local command = require('neo-tree.command')
+local command = require('neo-tree.command')
 
---vim.keymap.set('n', '<C-b>', function() command.execute({ toggle = true, source = 'filesystem' }) end)
+vim.keymap.set('n', '<C-b>', function() command.execute({ toggle = true, source = 'filesystem' }) end)
