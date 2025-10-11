@@ -42,7 +42,7 @@ require('lazy').setup({
     { 'mason-org/mason.nvim', opts = {} },
     { 'mason-org/mason-lspconfig.nvim',
       opts = {
-        ensure_installed = { 'lua_ls', 'gopls', 'rust_analyzer', 'basedpyright', 'ts_ls' },
+        ensure_installed = { 'lua_ls', 'gopls', 'rust_analyzer', 'basedpyright', 'ts_ls', 'emmet_language_server' },
       },
       dependencies = {
         { 'mason-org/mason.nvim', opts = {} },
@@ -86,6 +86,12 @@ require('lazy').setup({
           },
         }
       end
+    },
+    {
+      "olrtg/nvim-emmet",
+      config = function()
+        vim.keymap.set({ "n", "v" }, '<leader>xe', require('nvim-emmet').wrap_with_abbreviation)
+      end,
     },
     --{
     --    'goolord/alpha-nvim',

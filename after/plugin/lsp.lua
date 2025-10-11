@@ -124,7 +124,7 @@ vim.lsp.config['basedpyright'] = {
 }
 
 -- CMP
-local servers = { 'lua_ls', 'gopls', 'rust_analyzer', 'basedpyright', 'ts_ls' }
+local servers = { 'lua_ls', 'gopls', 'rust_analyzer', 'basedpyright', 'ts_ls', 'emmet_language_server' }
 for _, lsp in ipairs(servers) do
     vim.lsp.config[lsp]['capabilities'] = capabilities
     vim.lsp.enable(lsp)
