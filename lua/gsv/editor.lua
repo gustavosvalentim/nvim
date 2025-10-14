@@ -36,3 +36,5 @@ vim.opt.foldnestmax = 4
 
 -- open settings
 vim.keymap.set('n', '<C-,>', function() vim.cmd("e " .. vim.fn.stdpath("config")) end)
+
+vim.opt.fileformat = "unix,dos"
