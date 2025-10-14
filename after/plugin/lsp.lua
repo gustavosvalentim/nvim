@@ -19,7 +19,7 @@ vim.lsp.config['lua_ls'] = {
   on_init = function(client)
     if client.workspace_folders then
       local path = client.workspace_folders[1].name
-      if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
+      if vim.loop.fs_stat(path .. '/.luarc.json') or vim.loop.fs_stat(path .. '/.luarc.jsonc') then
         return
       end
     end
@@ -51,106 +51,106 @@ vim.lsp.config['lua_ls'] = {
 
 -- Go
 vim.lsp.config['gopls'] = {
-    cmd = {'gopls', 'serve'},
-    filetypes = {'go', 'gomod'},
-    root_dir = util.root_pattern('go.work', 'go.mod', '.git'),
-    settings = {
-      gopls = {
-        analyses = {
-          unusedparams = true,
-        },
-        staticcheck = true,
+  cmd = { 'gopls', 'serve' },
+  filetypes = { 'go', 'gomod' },
+  root_dir = util.root_pattern('go.work', 'go.mod', '.git'),
+  settings = {
+    gopls = {
+      analyses = {
+        unusedparams = true,
       },
+      staticcheck = true,
     },
+  },
 }
 
 -- Rust
 vim.lsp.config['rust_analyzer'] = {
-    on_attach = function(client, bufnr)
-        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-    end,
-    cmd = { "rust-analyzer" },
-    -- all the opts to send to nvim-lspconfig
-    -- these override the defaults set by rust-tools.nvim
-    -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
-    settings = {
-      -- to enable rust-analyzer settings visit:
-      -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
-      ["rust-analyzer"] = {
-        -- enable clippy on save
-        checkOnSave = true,
-        check = {
-            command = "clippy",
-            features = "all",
-        },
-        diagnostics = {
-            enable = true,
-            enableExperimental = true,
-        },
-        cargo = {
-            loadOutDirsFromCheck = true,
-            features = "all",
-        },
-        procMacro = {
-            enable = true,
-        },
-        inlayHints = {
-            chainingHints = true,
-            parameterHints = false,
-            typeHints = true,
-        },
+  on_attach = function(client, bufnr)
+    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+  end,
+  cmd = { "rust-analyzer" },
+  -- all the opts to send to nvim-lspconfig
+  -- these override the defaults set by rust-tools.nvim
+  -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
+  settings = {
+    -- to enable rust-analyzer settings visit:
+    -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
+    ["rust-analyzer"] = {
+      -- enable clippy on save
+      checkOnSave = true,
+      check = {
+        command = "clippy",
+        features = "all",
+      },
+      diagnostics = {
+        enable = true,
+        enableExperimental = true,
+      },
+      cargo = {
+        loadOutDirsFromCheck = true,
+        features = "all",
+      },
+      procMacro = {
+        enable = true,
+      },
+      inlayHints = {
+        chainingHints = true,
+        parameterHints = false,
+        typeHints = true,
       },
     },
+  },
 }
 
 vim.lsp.config['basedpyright'] = {
-    settings = {
-        basedpyright = {
-            analysis = {
-                typeCheckingMode = "off",
-                deprecateTypingAliases = true,
-                diagnosticSeverityOverrides = {
-                    reportDeprecated = "warning",
-                },
-                inlayHints = {
-                    variableTypes = true,
-                    functionReturnTypes = true,
-                    callArgumentNames = true,
-                    -- pytestParameters = true,
-                },
-            },
+  settings = {
+    basedpyright = {
+      analysis = {
+        typeCheckingMode = "off",
+        deprecateTypingAliases = true,
+        diagnosticSeverityOverrides = {
+          reportDeprecated = "warning",
         },
-    }
+        inlayHints = {
+          variableTypes = true,
+          functionReturnTypes = true,
+          callArgumentNames = true,
+          -- pytestParameters = true,
+        },
+      },
+    },
+  }
 }
 
 -- CMP
 local servers = { 'lua_ls', 'gopls', 'rust_analyzer', 'basedpyright', 'ts_ls', 'emmet_language_server' }
 for _, lsp in ipairs(servers) do
-    vim.lsp.config[lsp]['capabilities'] = capabilities
-    vim.lsp.enable(lsp)
+  vim.lsp.config[lsp]['capabilities'] = capabilities
+  vim.lsp.enable(lsp)
 end
 
 -- Neovim LSP keymaps and config
 vim.api.nvim_create_autocmd('LspAttach', {
-    group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-    callback = function(ev)
-        -- mappings
-        -- See `:help vim.lsp.*` for documentation on any of the below functions
-        local opts = { buffer = ev.buf }
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    -- mappings
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    local opts = { buffer = ev.buf }
 
-        -- vim.keymap.set('n', '<leader>gD', vim.lsp.buf.declaration, opts)
-        vim.keymap.set('n', '<F12>', vim.lsp.buf.definition, opts)
-        vim.keymap.set('n', '<A-F12>', vim.lsp.buf.hover, opts)
-        vim.keymap.set('n', '<C-F12>', vim.lsp.buf.implementation, opts)
-        vim.keymap.set('n', '<S-F12>', vim.lsp.buf.references, opts)
-        vim.keymap.set('n', '.', vim.diagnostic.open_float, opts)
-        vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format { async = true } end)
+    -- vim.keymap.set('n', '<leader>gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', '<F12>', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', '<A-F12>', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', '<C-F12>', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<S-F12>', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', '.', vim.diagnostic.open_float, opts)
+    vim.keymap.set('n', '<leader>fmt', function() vim.lsp.buf.format { async = true } end)
 
-        -- MacOS specific
-        vim.keymap.set('n', '<F60>', vim.lsp.buf.hover, opts)
-        vim.keymap.set('n', '<F36>', vim.lsp.buf.implementation, opts)
-        vim.keymap.set('n', '<F24>', vim.lsp.buf.references, opts)
-    end
+    -- MacOS specific
+    vim.keymap.set('n', '<F60>', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', '<F36>', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<F24>', vim.lsp.buf.references, opts)
+  end
 })
 
 -- CMP config
@@ -163,7 +163,7 @@ cmp.setup {
   },
   mapping = cmp.mapping.preset.insert({
     ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
-    ['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
+    ['<C-d>'] = cmp.mapping.scroll_docs(4),  -- Down
     -- C-b (back) C-f (forward) for snippet placeholder navigation.
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<CR>'] = cmp.mapping.confirm {
@@ -189,4 +189,3 @@ cmp.setup {
     { name = 'nvim_lsp' },
   },
 }
-
