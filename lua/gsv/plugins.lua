@@ -63,47 +63,11 @@ require('lazy').setup({
     },
     { 'lewis6991/gitsigns.nvim' },
     {
-      "nvim-neo-tree/neo-tree.nvim",
-      branch = "v3.x",
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-        "nvim-tree/nvim-web-devicons",
-        "MunifTanjim/nui.nvim",
-      },
-      lazy = false,
-      config = function()
-        require'neo-tree'.setup {
-          close_if_last_window = true,
-          hide_gitignored = true,
-          hide_by_pattern = {
-            '*/node_modules',
-            '*/.venv',
-          },
-          opts = {
-            filesystem = {
-              hijack_netrw_behavior = 'open_current'
-            }
-          },
-        }
-      end
-    },
-    {
       "olrtg/nvim-emmet",
       config = function()
         vim.keymap.set({ "n", "v" }, '<leader>xe', require('nvim-emmet').wrap_with_abbreviation)
       end,
     },
-    --{
-    --    'goolord/alpha-nvim',
-    --    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    --    config = function ()
-    --        local theme = require'alpha.themes.dashboard'
-
-    --        theme.file_icons.provider = "devicons"
-
-    --        require'alpha'.setup(theme.config)
-    --    end
-    --};
   },
   -- automatically check for plugin updates
   checker = { enabled = true, notify = false },
