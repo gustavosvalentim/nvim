@@ -24,22 +24,9 @@ require('lazy').setup({
       'gustavosvalentim/monokai.nvim',
       config = function ()
         require('monokai').setup{}
-        vim.cmd([[set t_Co=256]])
         vim.cmd([[colorscheme monokai]])
       end
     },
-    -- {
-    --     "rose-pine/neovim",
-    --     name = "rose-pine",
-    --     config = function()
-    --       require('rose-pine').setup{
-    --         styles = {
-    --             transparency = false,
-    --         }
-    --       }
-    --       vim.cmd([[colorscheme rose-pine]])
-    --     end
-    -- },
     {
         'nvim-treesitter/nvim-treesitter',
         config = function()
