@@ -21,13 +21,11 @@ require('lazy').setup({
     -- import your plugins
     { 'nvim-tree/nvim-web-devicons', lazy = true },
     {
-      'tanvirtin/monokai.nvim',
+      'gustavosvalentim/monokai.nvim',
       config = function ()
         require('monokai').setup{}
         vim.cmd([[set t_Co=256]])
         vim.cmd([[colorscheme monokai]])
-        vim.o.termguicolors = true
-        vim.api.nvim_set_hl(0, "Normal", { bg = "#1F1F1F" })
       end
     },
     -- {
