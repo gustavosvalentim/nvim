@@ -21,17 +21,27 @@ require('lazy').setup({
     -- import your plugins
     { 'nvim-tree/nvim-web-devicons', lazy = true },
     {
-        "rose-pine/neovim",
-        name = "rose-pine",
-        config = function()
-            require('rose-pine').setup({
-                styles = {
-                    transparency = true,
-                }
-            })
-            vim.cmd([[colorscheme rose-pine]])
-        end
+      'tanvirtin/monokai.nvim',
+      config = function ()
+        require('monokai').setup{}
+        vim.cmd([[set t_Co=256]])
+        vim.cmd([[colorscheme monokai]])
+        vim.o.termguicolors = true
+        vim.api.nvim_set_hl(0, "Normal", { bg = "#1F1F1F" })
+      end
     },
+    -- {
+    --     "rose-pine/neovim",
+    --     name = "rose-pine",
+    --     config = function()
+    --       require('rose-pine').setup{
+    --         styles = {
+    --             transparency = false,
+    --         }
+    --       }
+    --       vim.cmd([[colorscheme rose-pine]])
+    --     end
+    -- },
     {
         'nvim-treesitter/nvim-treesitter',
         config = function()
