@@ -37,7 +37,7 @@ require('lazy').setup({
     { 'mason-org/mason.nvim', opts = {} },
     { 'mason-org/mason-lspconfig.nvim',
       opts = {
-        ensure_installed = { 'lua_ls', 'gopls', 'rust_analyzer', 'basedpyright', 'ts_ls', 'emmet_language_server' },
+        ensure_installed = { 'lua_ls', 'gopls', 'rust_analyzer', 'ruff', 'basedpyright','ts_ls', 'emmet_language_server' },
       },
       dependencies = {
         { 'mason-org/mason.nvim', opts = {} },

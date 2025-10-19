@@ -12,7 +12,12 @@ vim.opt.shortmess = vim.opt.shortmess + "c"
 vim.diagnostic.config({ virtual_text = true })
 
 local util = require('lspconfig/util')
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+for k, v in ipairs(cmp_capabilities) do
+  capabilities[k] = v
+end
 
 -- Lua
 vim.lsp.config['lua_ls'] = {
@@ -107,7 +112,7 @@ vim.lsp.config['basedpyright'] = {
   settings = {
     basedpyright = {
       analysis = {
-        typeCheckingMode = "off",
+        typeCheckingMode = "basic",
         deprecateTypingAliases = true,
         diagnosticSeverityOverrides = {
           reportDeprecated = "warning",
@@ -120,11 +125,31 @@ vim.lsp.config['basedpyright'] = {
         },
       },
     },
-  }
+  },
+}
+
+vim.lsp.config['ruff'] = {
+  init_options = {
+    settings = {
+      lineLength = 100,
+    },
+  },
+  on_attach = function(client, bufnr)
+    client.server_capabilities.hoverProvider = false
+
+    if client.supports_method("textDocument/formatting", bufnr) then
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.format({ bufnr = bufnr, async = true })
+        end,
+      })
+    end
+  end
 }
 
 -- CMP
-local servers = { 'lua_ls', 'gopls', 'rust_analyzer', 'basedpyright', 'ts_ls', 'emmet_language_server' }
+local servers = { 'lua_ls', 'gopls', 'rust_analyzer', 'ruff', 'basedpyright', 'ts_ls', 'emmet_language_server' }
 for _, lsp in ipairs(servers) do
   vim.lsp.config[lsp]['capabilities'] = capabilities
   vim.lsp.enable(lsp)
@@ -133,10 +158,10 @@ end
 -- Neovim LSP keymaps and config
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-  callback = function(ev)
+  callback = function(args)
     -- mappings
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local opts = { buffer = ev.buf }
+    local opts = { buffer = args.buf }
 
     -- vim.keymap.set('n', '<leader>gD', vim.lsp.buf.declaration, opts)
     vim.keymap.set('n', '<F12>', vim.lsp.buf.definition, opts)
