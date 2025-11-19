@@ -11,8 +11,8 @@ vim.opt.shortmess = vim.opt.shortmess + "c"
 -- Display inline diagnostics
 vim.diagnostic.config({ virtual_text = true })
 
-local util = require('lspconfig/util')
-local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+-- local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+local cmp_capabilities = {}
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 for k, v in ipairs(cmp_capabilities) do
@@ -24,12 +24,12 @@ vim.lsp.config['lua_ls'] = {
   on_init = function(client)
     if client.workspace_folders then
       local path = client.workspace_folders[1].name
-      if vim.loop.fs_stat(path .. '/.luarc.json') or vim.loop.fs_stat(path .. '/.luarc.jsonc') then
+      if vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc') then
         return
       end
     end
 
-    client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+    local client_config = {
       runtime = {
         -- Tell the language server which version of Lua you're using
         -- (most likely LuaJIT in the case of Neovim)
@@ -39,15 +39,21 @@ vim.lsp.config['lua_ls'] = {
       workspace = {
         checkThirdParty = false,
         library = {
-          vim.env.VIMRUNTIME
+          vim.env.VIMRUNTIME,
           -- Depending on the usage, you might want to add additional paths here.
-          -- "${3rd}/luv/library"
+          "${3rd}/luv/library",
           -- "${3rd}/busted/library",
         }
         -- or pull in all of 'runtimepath'. NOTE: this is a lot slower and will cause issues when working on your own configuration (see https://github.com/neovim/nvim-lspconfig/issues/3189)
         -- library = vim.api.nvim_get_runtime_file("", true)
       }
-    })
+    }
+
+    if type(client.config.settings.Lua) == "table" then
+      client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, client_config)
+    else
+      client.config.settings.Lua = client_config
+    end
   end,
   settings = {
     Lua = {}
@@ -56,13 +62,11 @@ vim.lsp.config['lua_ls'] = {
 
 -- Go
 vim.lsp.config['gopls'] = {
-  cmd = { 'gopls', 'serve' },
-  filetypes = { 'go', 'gomod' },
-  root_dir = util.root_pattern('go.work', 'go.mod', '.git'),
   settings = {
     gopls = {
       analyses = {
         unusedparams = true,
+        ST1000 = false,
       },
       staticcheck = true,
     },
@@ -71,7 +75,7 @@ vim.lsp.config['gopls'] = {
 
 -- Rust
 vim.lsp.config['rust_analyzer'] = {
-  on_attach = function(client, bufnr)
+  on_attach = function(_, bufnr)
     vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
   end,
   cmd = { "rust-analyzer" },
@@ -159,58 +163,55 @@ end
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
   callback = function(args)
-    -- mappings
+    -- keybinds/mappings/shortcuts
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local opts = { buffer = args.buf }
+    local keymap_options = function(desc)
+      return { buffer = args.buf, silent = true, desc = desc }
+    end
 
-    -- vim.keymap.set('n', '<leader>gD', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', '<F12>', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', '<A-F12>', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', '<C-F12>', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', '<S-F12>', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', '.', vim.diagnostic.open_float, opts)
-    vim.keymap.set('n', '<leader>fmt', function() vim.lsp.buf.format { async = true } end)
-
-    -- MacOS specific
-    vim.keymap.set('n', '<F60>', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', '<F36>', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', '<F24>', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, keymap_options('LSP: Goto Definition'))
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, keymap_options('LSP: Goto Implementation'))
+    vim.keymap.set('n', 'gR', vim.lsp.buf.references, keymap_options('LSP: References'))
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, keymap_options('LSP: Hover'))
+    vim.keymap.set('n', '.', vim.diagnostic.open_float, keymap_options('LSP: Diagnostic'))
+    vim.keymap.set('n', '<leader>fmt', function() vim.lsp.buf.format { async = true } end, keymap_options('LSP: Format File'))
+    vim.keymap.set('n', '<leader>rr', vim.lsp.buf.rename, keymap_options('LSP: Rename Symbol'))
   end
 })
 
--- CMP config
-local cmp = require 'cmp'
-cmp.setup {
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
-  mapping = cmp.mapping.preset.insert({
-    ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
-    ['<C-d>'] = cmp.mapping.scroll_docs(4),  -- Down
-    -- C-b (back) C-f (forward) for snippet placeholder navigation.
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-  }),
-  sources = {
-    { name = 'nvim_lsp' },
-  },
-}
+-- CMP (AutoComplete) config
+-- local cmp = require 'cmp'
+-- cmp.setup {
+--   snippet = {
+--     expand = function(args)
+--       luasnip.lsp_expand(args.body)
+--     end,
+--   },
+--   mapping = cmp.mapping.preset.insert({
+--     ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
+--     ['<C-d>'] = cmp.mapping.scroll_docs(4),  -- Down
+--     -- C-b (back) C-f (forward) for snippet placeholder navigation.
+--     ['<C-Space>'] = cmp.mapping.complete(),
+--     ['<CR>'] = cmp.mapping.confirm {
+--       behavior = cmp.ConfirmBehavior.Replace,
+--       select = true,
+--     },
+--     ['<Tab>'] = cmp.mapping(function(fallback)
+--       if cmp.visible() then
+--         cmp.select_next_item()
+--       else
+--         fallback()
+--       end
+--     end, { 'i', 's' }),
+--     ['<S-Tab>'] = cmp.mapping(function(fallback)
+--       if cmp.visible() then
+--         cmp.select_prev_item()
+--       else
+--         fallback()
+--       end
+--     end, { 'i', 's' }),
+--   }),
+--   sources = {
+--     { name = 'nvim_lsp' },
+--   },
+-- }

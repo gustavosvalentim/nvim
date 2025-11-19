@@ -19,7 +19,6 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   spec = {
     -- import your plugins
-    { 'nvim-tree/nvim-web-devicons', lazy = true },
     {
       'gustavosvalentim/monokai.nvim',
       config = function ()
@@ -44,8 +43,8 @@ require('lazy').setup({
         { 'neovim/nvim-lspconfig' },
       },
     },
-    { 'hrsh7th/nvim-cmp' },
-    { 'hrsh7th/cmp-nvim-lsp' },
+--     { 'hrsh7th/nvim-cmp' },
+--     { 'hrsh7th/cmp-nvim-lsp' },
     {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' }
