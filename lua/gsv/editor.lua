@@ -27,6 +27,7 @@ vim.opt.syntax = "enable"
 
 -- set this to 0 if you want `:e .` to use the buffer dir
 vim.g.netrw_keepdir = 1
+vim.g.netrw_liststyle = 3
 
 vim.opt.foldmethod = "expr"
 vim.opt.foldcolumn = "0"

@@ -153,7 +153,7 @@ vim.lsp.config['ruff'] = {
 }
 
 -- CMP
-local servers = { 'lua_ls', 'gopls', 'rust_analyzer', 'ruff', 'basedpyright', 'ts_ls', 'emmet_language_server' }
+local servers = { 'lua_ls', 'gopls', 'rust_analyzer', 'ruff', 'basedpyright', 'ts_ls', 'emmet_language_server', 'elixirls' }
 for _, lsp in ipairs(servers) do
   vim.lsp.config[lsp]['capabilities'] = capabilities
   vim.lsp.enable(lsp)
