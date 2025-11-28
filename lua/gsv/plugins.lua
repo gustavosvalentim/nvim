@@ -18,7 +18,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Setup lazy.nvim
 require('lazy').setup({
   spec = {
-    -- import your plugins
+    { import = "plugins" },
     {
       'gustavosvalentim/monokai.nvim',
       config = function ()
