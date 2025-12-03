@@ -56,11 +56,11 @@ require('lazy').setup({
         dependencies = { 'nvim-tree/nvim-web-devicons' }
     },
     { 'tpope/vim-fugitive' },
-    {
-      "ibhagwan/fzf-lua",
-      dependencies = { "nvim-tree/nvim-web-devicons" },
-      opts = {}
-    },
+    -- {
+    --   "ibhagwan/fzf-lua",
+    --   dependencies = { "nvim-tree/nvim-web-devicons" },
+    --   opts = {}
+    -- },
     { 'lewis6991/gitsigns.nvim' },
     {
       "olrtg/nvim-emmet",
