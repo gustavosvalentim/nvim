@@ -15,6 +15,7 @@ fzf.setup({
   }
 })
 
-vim.keymap.set('n', '<leader>p', fzf.files)
-vim.keymap.set('n', '<leader>f', fzf.lgrep_curbuf)
-vim.keymap.set('n', '<leader>F', fzf.live_grep)
+vim.keymap.set('n', 'fp', fzf.files)
+vim.keymap.set('n', 'fd', fzf.lgrep_curbuf)
+vim.keymap.set('n', 'fD', fzf.live_grep)
+vim.keymap.set('n', '<C-S-P>', fzf.commands)
