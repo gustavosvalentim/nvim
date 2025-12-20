@@ -19,19 +19,19 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   spec = {
     { import = "plugins" },
-    {
-      'gustavosvalentim/monokai.nvim',
-      config = function ()
-        require('monokai').setup{}
-        vim.cmd([[colorscheme monokai]])
-      end
-    },
     -- {
-    --   'gustavosvalentim/harmony.nvim',
-    --   config = function()
-    --     vim.cmd([[colorscheme harmony]])
+    --   'gustavosvalentim/monokai.nvim',
+    --   config = function ()
+    --     require('monokai').setup{}
+    --     vim.cmd([[colorscheme monokai]])
     --   end
     -- },
+    {
+      'gustavosvalentim/harmony.nvim',
+      config = function()
+        vim.cmd([[colorscheme harmony]])
+      end
+    },
     {
         'nvim-treesitter/nvim-treesitter',
         config = function()
