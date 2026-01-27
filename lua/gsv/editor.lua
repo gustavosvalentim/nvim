@@ -10,6 +10,25 @@ vim.opt.expandtab = true
 
 vim.opt.smartindent = true
 
+-- 2-space indentation for web and config languages
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = {
+    "typescript",
+    "typescriptreact",
+    "javascript",
+    "javascriptreact",
+    "html",
+    "htmldjango",
+    "lua",
+    "nix",
+  },
+  callback = function()
+    vim.opt_local.tabstop = 2
+    vim.opt_local.softtabstop = 2
+    vim.opt_local.shiftwidth = 2
+  end,
+})
+
 vim.opt.wrap = false
 
 vim.opt.swapfile = false
