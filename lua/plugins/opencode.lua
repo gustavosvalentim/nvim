@@ -1,5 +1,5 @@
 return {
-  "NickvanDyke/opencode.nvim",
+  "nickjvandyke/opencode.nvim",
   dependencies = {
     -- Recommended for `ask()` and `select()`.
     -- Required for `snacks` provider.
