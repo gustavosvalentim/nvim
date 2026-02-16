@@ -32,6 +32,22 @@ require('lazy').setup({
         vim.cmd([[colorscheme harmony]])
       end
     },
+    -- {
+    --   dir = vim.fn.expand('~/repos/harmony.nvim'),
+    --   name = 'harmony.nvim',
+    --   config = function()
+    --     vim.cmd([[colorscheme harmony]])
+    --   end
+    -- },
+    -- {
+    --   "loctvl842/monokai-pro.nvim",
+    --   lazy = false,
+    --   priority = 1000,
+    --   config = function()
+    --     require("monokai-pro").setup()
+    --     vim.cmd.colorscheme("monokai-pro")
+    --   end,
+    -- },
     {
         'nvim-treesitter/nvim-treesitter',
         config = function()
