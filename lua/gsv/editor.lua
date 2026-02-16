@@ -57,4 +57,7 @@ vim.keymap.set('n', '<C-,>', function() vim.cmd("e " .. vim.fn.stdpath("config")
 
 vim.keymap.set('v', 'Y', '"+y')
 vim.keymap.set('n', 'P', '"+p')
+vim.keymap.set('n', 'YP', function()
+  vim.fn.setreg('+', vim.fn.expand('%'))
+end)
 
