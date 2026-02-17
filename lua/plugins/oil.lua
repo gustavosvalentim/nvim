@@ -39,7 +39,7 @@ local function new_git_status()
 end
 local git_status = new_git_status()
 
-vim.keymap.set('n', 'o.', '<Cmd>Oil<CR>', { desc = 'open oil' })
+vim.keymap.set('n', 'ex', '<Cmd>Oil<CR>', { desc = 'open oil' })
 
 return {
   {
