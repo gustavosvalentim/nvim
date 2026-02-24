@@ -13,11 +13,7 @@ vim.diagnostic.config({ virtual_text = true })
 
 -- local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 local cmp_capabilities = {}
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-for k, v in ipairs(cmp_capabilities) do
-  capabilities[k] = v
-end
+local capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), cmp_capabilities)
 
 -- Lua
 vim.lsp.config['lua_ls'] = {
@@ -141,7 +137,7 @@ vim.lsp.config['ruff'] = {
   on_attach = function(client, bufnr)
     client.server_capabilities.hoverProvider = false
 
-    if client.supports_method("textDocument/formatting", bufnr) then
+    if client:supports_method("textDocument/formatting", bufnr) then
       vim.api.nvim_create_autocmd("BufWritePre", {
         buffer = bufnr,
         callback = function()
@@ -171,11 +167,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, keymap_options('LSP: Goto Definition'))
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, keymap_options('LSP: Goto Implementation'))
-    vim.keymap.set('n', 'gR', vim.lsp.buf.references, keymap_options('LSP: References'))
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, keymap_options('LSP: References'))
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, keymap_options('LSP: Hover'))
+    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, keymap_options('LSP: Code Action'))
     vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, keymap_options('LSP: Diagnostic'))
     vim.keymap.set('n', '<leader>fmt', function() vim.lsp.buf.format { async = true } end, keymap_options('LSP: Format File'))
-    vim.keymap.set('n', '<leader>rr', vim.lsp.buf.rename, keymap_options('LSP: Rename Symbol'))
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, keymap_options('LSP: Rename Symbol'))
   end
 })
 
