@@ -159,6 +159,13 @@ end
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
   callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+    if client then
+      -- Enable builtin LSP completion for this buffer/client pair.
+      vim.lsp.completion.enable(true, client.id, args.buf)
+    end
+
     -- keybinds/mappings/shortcuts
     -- See `:help vim.lsp.*` for documentation on any of the below functions
     local keymap_options = function(desc)
@@ -169,6 +176,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, keymap_options('LSP: Goto Implementation'))
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, keymap_options('LSP: References'))
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, keymap_options('LSP: Hover'))
+    vim.keymap.set('i', "<C-x><C-o>", vim.lsp.completion.get, keymap_options("LSP: Trigger completion"))
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, keymap_options('LSP: Code Action'))
     vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, keymap_options('LSP: Diagnostic'))
     vim.keymap.set('n', '<leader>fmt', function() vim.lsp.buf.format { async = true } end, keymap_options('LSP: Format File'))
