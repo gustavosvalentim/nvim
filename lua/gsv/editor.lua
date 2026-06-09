@@ -18,6 +18,7 @@ vim.api.nvim_create_autocmd("FileType", {
     "javascript",
     "javascriptreact",
     "json",
+    "jsonc",
     "html",
     "htmldjango",
     "lua",
