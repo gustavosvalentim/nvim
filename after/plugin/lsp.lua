@@ -11,6 +11,26 @@ vim.opt.shortmess = vim.opt.shortmess + "c"
 -- Display inline diagnostics
 vim.diagnostic.config({ virtual_text = true })
 
+-- Neovim 0.11 does not handle pull-diagnostic refresh requests from servers.
+local diagnostic_refresh = vim.lsp.protocol.Methods.workspace_diagnostic_refresh
+if diagnostic_refresh and not vim.lsp.handlers[diagnostic_refresh] then
+  vim.lsp.handlers[diagnostic_refresh] = function(_, _, ctx)
+    local client = vim.lsp.get_client_by_id(ctx.client_id)
+    if not client then
+      return vim.NIL
+    end
+
+    for bufnr in pairs(client.attached_buffers) do
+      vim.lsp.util._refresh(vim.lsp.protocol.Methods.textDocument_diagnostic, {
+        bufnr = bufnr,
+        client_id = client.id,
+      })
+    end
+
+    return vim.NIL
+  end
+end
+
 -- local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 local cmp_capabilities = {}
 local capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), cmp_capabilities)
@@ -86,15 +106,12 @@ vim.lsp.config['rust_analyzer'] = {
       checkOnSave = true,
       check = {
         command = "clippy",
-        features = "all",
       },
       diagnostics = {
         enable = true,
-        enableExperimental = true,
-      },
-      cargo = {
-        loadOutDirsFromCheck = true,
-        features = "all",
+        experimental = {
+          enable = false,
+        },
       },
       procMacro = {
         enable = true,
