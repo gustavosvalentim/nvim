@@ -26,12 +26,12 @@ require('lazy').setup({
     --     vim.cmd([[colorscheme monokai]])
     --   end
     -- },
-    {
-      'gustavosvalentim/harmony.nvim',
-      config = function()
-        vim.cmd([[colorscheme harmony]])
-      end
-    },
+    -- {
+    --   'gustavosvalentim/harmony.nvim',
+    --   config = function()
+    --     vim.cmd([[colorscheme harmony]])
+    --   end
+    -- },
     -- {
     --   dir = vim.fn.expand('~/repos/harmony.nvim'),
     --   name = 'harmony.nvim',
