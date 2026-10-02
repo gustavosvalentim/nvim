@@ -23,6 +23,7 @@ vim.api.nvim_create_autocmd("FileType", {
     "htmldjango",
     "lua",
     "nix",
+    "tf",
   },
   callback = function()
     vim.opt_local.tabstop = 2
