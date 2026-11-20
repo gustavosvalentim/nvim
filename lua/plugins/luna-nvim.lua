@@ -11,6 +11,6 @@ return {
     }
   },
   config = function()
-    vim.cmd.colorscheme('luna')
+    -- vim.cmd.colorscheme('luna')
   end,
 }
