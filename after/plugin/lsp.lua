@@ -195,6 +195,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, keymap_options('LSP: Hover'))
     vim.keymap.set('i', "<C-x><C-o>", vim.lsp.completion.get, keymap_options("LSP: Trigger completion"))
     vim.keymap.set('i', "<C-Space>", vim.lsp.completion.get, keymap_options("LSP: Trigger completion"))
+    -- Keep native Insert-mode behavior both inside and outside the completion menu.
+    vim.keymap.set('i', '<C-n>', '<C-n>', keymap_options('Completion: Next suggestion'))
+    vim.keymap.set('i', '<C-p>', '<C-p>', keymap_options('Completion: Previous suggestion'))
+    vim.keymap.set('i', '<C-y>', '<C-y>', keymap_options('Completion: Accept suggestion'))
+    vim.keymap.set('i', '<C-e>', '<C-e>', keymap_options('Completion: Cancel'))
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, keymap_options('LSP: Code Action'))
     vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, keymap_options('LSP: Diagnostic'))
     vim.keymap.set('n', '<leader>fmt', function() vim.lsp.buf.format { async = true } end, keymap_options('LSP: Format File'))
