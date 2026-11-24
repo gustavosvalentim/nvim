@@ -194,6 +194,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, keymap_options('LSP: References'))
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, keymap_options('LSP: Hover'))
     vim.keymap.set('i', "<C-x><C-o>", vim.lsp.completion.get, keymap_options("LSP: Trigger completion"))
+    vim.keymap.set('i', "<C-Space>", vim.lsp.completion.get, keymap_options("LSP: Trigger completion"))
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, keymap_options('LSP: Code Action'))
     vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, keymap_options('LSP: Diagnostic'))
     vim.keymap.set('n', '<leader>fmt', function() vim.lsp.buf.format { async = true } end, keymap_options('LSP: Format File'))
